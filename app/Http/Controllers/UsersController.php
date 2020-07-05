@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Resources\LoginResource;
 use App\Http\Resources\UserResource;
 use App\Http\services\UserService;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -37,5 +39,19 @@ class UsersController extends Controller
         $response = $this->userService->createUser($request->validated());
 
         return response(new UserResource($response), 201);
+    }
+
+
+    /**
+     * @param LoginRequest $request
+     * @return ResponseFactory|Response
+     */
+    public function login(LoginRequest $request)
+    {
+        if (!auth()->attempt($request->validated())) {
+            return response(['message' => 'Invalid Credentials']);
+        }
+
+        return response(new LoginResource(auth()->user()), 200);
     }
 }

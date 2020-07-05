@@ -2,8 +2,14 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
+/**
+ * Class UserStoreRequest
+ * @package App\Http\Requests
+ */
 class UserStoreRequest extends FormRequest
 {
     /**
@@ -42,5 +48,13 @@ class UserStoreRequest extends FormRequest
             'name.required' => 'Name is required!',
             'password.required' => 'Password is required!'
         ];
+    }
+
+    /**
+     * @param Validator $validator
+     */
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
