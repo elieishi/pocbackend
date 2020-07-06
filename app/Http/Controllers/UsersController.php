@@ -49,7 +49,7 @@ class UsersController extends Controller
     public function login(LoginRequest $request)
     {
         if (!auth()->attempt($request->validated())) {
-            return response(['message' => 'Invalid Credentials']);
+            return response(['message' => ['Invalid Credentials']], 422);
         }
 
         return response(new LoginResource(auth()->user()), 200);

@@ -3,14 +3,15 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\Listing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class UsersTest extends TestCase
 {
     use RefreshDatabase;
+
+    private $user;
 
     public function setUp(): void
     {
@@ -65,8 +66,38 @@ class UsersTest extends TestCase
             'user',
             'access_token'
         ]);
-
-
-
     }
+
+    /** @test */
+    public function a_user_can_create_a_listing()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($user = factory(User::class)->create(), 'api');
+
+        //create listing
+        $response = $this->post('/api/listings',[
+            'title'         => 'Lonehill Bedroom',
+            'description'   => '12345',
+            'price'         => 100,
+            'currency'      => 'zar',
+            'category'      => 'furniture'
+        ]);
+
+        $listing = Listing::first();
+
+        $this->assertCount(1, Listing::all());
+        $this->assertEquals($user->id, $listing->user_id);
+
+        $response->assertCreated();
+        $response->assertJson([
+                'id'=> $listing->id,
+                'title' => 'Lonehill Bedroom',
+                'description' => '12345',
+                'price' => 100,
+                'currency' => 'zar',
+                'category' => 'furniture'
+        ]);
+    }
+
 }
