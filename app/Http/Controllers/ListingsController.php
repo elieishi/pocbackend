@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CreateListingRequest;
+use App\Http\Resources\ListingCollectionResource;
 use App\Http\Resources\ListingResource;
+use App\Listing;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class ListingsController extends Controller
 {
+    public function index()
+    {
+        return new ListingCollectionResource(Listing::all());
+    }
+
+
     public function store(CreateListingRequest $request)
     {
         $data = $request->validated();

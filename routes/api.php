@@ -8,3 +8,5 @@ Route::post('/login', 'UsersController@login');
 Route::middleware('auth:api')->group(function(){
     Route::post('/listings', 'ListingsController@store');
 });
+
+Route::get('/listings', 'ListingsController@index');
