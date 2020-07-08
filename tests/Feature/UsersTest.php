@@ -89,7 +89,7 @@ class UsersTest extends TestCase
         $this->assertCount(1, Listing::all());
         $this->assertEquals($user->id, $listing->user_id);
 
-        $response->assertCreated();
+        $response->assertSuccessful();
         $response->assertJson([
                 'id'=> $listing->id,
                 'title' => 'Lonehill Bedroom',

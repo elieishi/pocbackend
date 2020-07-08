@@ -8,6 +8,7 @@ use App\Http\Resources\ListingCollectionResource;
 use App\Http\Resources\ListingResource;
 use App\Listing;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\Request;
 
 class ListingsController extends Controller
 {
@@ -32,5 +33,10 @@ class ListingsController extends Controller
 
         return response(new ListingResource($listing), 201);
 
+    }
+
+    public function me(Request $request)
+    {
+        return new ListingCollectionResource($request->user()->listings()->get());
     }
 }
