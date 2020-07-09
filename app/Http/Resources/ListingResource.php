@@ -20,6 +20,7 @@ class ListingResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
+            'slug' => $this->slug,
             'currency' => $this->currency,
             'date_online'=> $this->date_online,
             'date_offline' => $this->date_offline,
