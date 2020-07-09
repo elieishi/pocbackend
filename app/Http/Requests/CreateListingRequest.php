@@ -30,7 +30,7 @@ class CreateListingRequest extends FormRequest
             'description' => 'string',
             'price'=> 'required',
             'currency'=> 'required',
-            'category'=> 'required'
+            'category'=> 'required|exists:categories,slug'
         ];
     }
 

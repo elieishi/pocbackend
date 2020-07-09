@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Resources\ListingResource;
 use App\Http\Resources\LoginResource;
 use App\Http\Resources\UserResource;
 use App\Http\services\UserService;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
@@ -52,6 +54,11 @@ class UsersController extends Controller
             return response(['message' => ['Invalid Credentials']], 422);
         }
 
+        return response(new LoginResource(auth()->user()), 200);
+    }
+
+    public function me(Request $request)
+    {
         return response(new LoginResource(auth()->user()), 200);
     }
 }
